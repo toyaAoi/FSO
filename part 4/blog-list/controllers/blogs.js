@@ -15,22 +15,25 @@ blogsRouter.post(
   "/",
   middleware.userExtractor,
   async (request, response, next) => {
-    const { title, author, userId, url, likes } = request.body;
+    const { title, author, user, url, likes } = request.body;
+    console.log(request.body);
 
-    const user = await User.findById(userId);
+    const currentUser = await User.findById(user.id);
 
     const blog = new Blog({
       title,
       author,
-      user,
+      user: currentUser,
       url,
       likes: likes || 0,
     });
 
     const savedBlog = await blog.save();
 
-    user.blogs.push(savedBlog._id);
-    await user.save();
+    console.log(currentUser);
+
+    currentUser.blogs.push(savedBlog._id);
+    await currentUser.save();
 
     response.status(201).json(savedBlog);
   }

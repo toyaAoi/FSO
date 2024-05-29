@@ -27,7 +27,7 @@ const userExtractor = (request, response, next) => {
     });
   }
 
-  request.user = {
+  request.body.user = {
     username: decodedToken.username,
     id: decodedToken.id,
   };
