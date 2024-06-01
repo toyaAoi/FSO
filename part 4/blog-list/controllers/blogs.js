@@ -16,7 +16,6 @@ blogsRouter.post(
   middleware.userExtractor,
   async (request, response, next) => {
     const { title, author, user, url, likes } = request.body;
-    console.log(request.body);
 
     const currentUser = await User.findById(user.id);
 
@@ -30,8 +29,6 @@ blogsRouter.post(
 
     const savedBlog = await blog.save();
 
-    console.log(currentUser);
-
     currentUser.blogs.push(savedBlog._id);
     await currentUser.save();
 
@@ -44,9 +41,8 @@ blogsRouter.delete(
   middleware.userExtractor,
   async (request, response, next) => {
     const blog = await Blog.findById(request.params.id);
-    console.log(blog);
 
-    if (!(request.user.id === blog.user._id.toString())) {
+    if (!(request.body.user.id === blog.user._id.toString())) {
       return response.status(404).json({
         error: "only the user who created this blog can delete",
       });
