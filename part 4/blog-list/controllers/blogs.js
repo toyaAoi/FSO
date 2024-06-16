@@ -43,7 +43,7 @@ blogsRouter.delete(
     const blog = await Blog.findById(request.params.id);
 
     if (!(request.body.user.id === blog.user._id.toString())) {
-      return response.status(404).json({
+      return response.status(401).json({
         error: "only the user who created this blog can delete",
       });
     }
