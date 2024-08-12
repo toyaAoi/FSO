@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.message {
+  @apply text-xl border-2 border-gray-200 bg-gray-100 p-2.5 mb-2.5 rounded-md;
+}
+
+.error {
+  @apply text-red-500;
+}
+
+.success {
+  @apply text-green-500;
+}
+
+.form {
+  @apply bg-white shadow-md border-2 border-neutral-200 rounded px-8 pt-6 pb-8 mb-4;
+}
+
+.form-title {
+  @apply text-2xl font-bold mb-4;
+}
+
+.form-input {
+  @apply block w-full py-2 px-3 border-2 border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-neutral-500 focus:border-neutral-500 sm:text-sm;
+}
+
+.form-button {
+  @apply block w-52 mx-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-neutral-600 hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-500;
+}
+
+.nav {
+  @apply text-sm flex justify-between items-center py-4 px-6 bg-neutral-700 text-white rounded-sm;
+}
+
+.nav-link {
+  @apply font-medium inline-block hover:text-neutral-300 underline underline-offset-4;
+}
+
+.nav-button {
+  @apply font-medium border border-neutral-300 py-1 px-2 rounded-md hover:bg-neutral-300 hover:text-neutral-700;
+}
+
+.button {
+  @apply font-medium border border-neutral-300 py-1 px-2 rounded-md hover:bg-neutral-300 hover:text-neutral-700;
+}
+
+.blog-link {
+  @apply block flex items-center justify-center my-4 h-10 bg-neutral-200 rounded-md text-neutral-700 font-medium text-xl;
+}
+
+.blog-container {
+  @apply flex flex-col max-w-screen-sm justify-center mt-4 mx-auto;
+}
+
+.title {
+  @apply text-2xl font-bold mb-4;
+}
+
+.blog-url {
+  @apply text-sm text-neutral-500 underline;
+}
+
+.blog-author {
+  @apply text-sm text-neutral-500;
+}
+
+.comment {
+  @apply bg-gray-100 p-2.5 mb-2.5 rounded-md mt-2;
+}
+
+.comment-text {
+  @apply text-lg mb-2;
+}
+
+.comment-title {
+  @apply text-lg font-bold mb-2;
+}
+
+.comment-input {
+  @apply py-1.5 px-3 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-neutral-500 focus:border-neutral-500 sm:text-sm;
+}
+
+.table {
+  @apply w-full text-left mt-4;
+}
+
+.table-header {
+  @apply text-lg font-bold mb-2;
+}
+
+.table-row {
+  @apply border-b border-gray-200 py-4;
+}
+
+.table-data {
+  @apply text-lg;
+}
+
