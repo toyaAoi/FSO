@@ -86,7 +86,10 @@ const resolvers = {
     authorCount: async () => await Author.countDocuments(),
     bookCount: async () => await Book.countDocuments(),
     allBooks: async (_root, args) => {
+      console.log("Requested All Books");
+
       if (!args.author && !args.genre) {
+        console.log("No filter provided");
         const books = await Book.find().populate("author");
         return books;
       }
@@ -118,15 +121,24 @@ const resolvers = {
         return books;
       }
 
+      console.log("Reached the end of the function");
       return [];
     },
     allAuthors: async () => {
       const authors = await Author.find();
       return authors;
     },
+    me: ({ currentUser }) => currentUser,
   },
   Mutation: {
-    addBook: async (_root, args) => {
+    addBook: async (_root, args, { currentUser }) => {
+      if (!currentUser) {
+        throw new GraphQLError("login required", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
       let author = await Author.findOne({ name: args.author });
       if (!author) {
         author = await Author.create({ name: args.author });
@@ -162,7 +174,14 @@ const resolvers = {
       }
     },
 
-    editAuthor: async (_root, args) => {
+    editAuthor: async (_root, args, { currentUser }) => {
+      if (!currentUser) {
+        throw new GraphQLError("login required", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
       const author = await Author.findOne({ name: args.name });
       if (author) {
         try {
@@ -231,6 +250,18 @@ const server = new ApolloServer({
 
 startStandaloneServer(server, {
   listen: { port: 4000 },
+  context: async ({ req }) => {
+    const auth = req ? req.headers.authorization : null;
+    if (auth && auth.startsWith("Bearer ")) {
+      const decodedToken = jwt.verify(
+        auth.substring(7),
+        process.env.JWT_SECRET
+      );
+
+      const currentUser = await User.findById(decodedToken.id);
+      return { currentUser };
+    }
+  },
 }).then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });
