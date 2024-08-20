@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK } from "../queries";
 
-const NewBook = (props) => {
+const NewBook = ({ show, token, setPage }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [published, setPublished] = useState("");
@@ -12,17 +12,24 @@ const NewBook = (props) => {
 
   const [createBook] = useMutation(CREATE_BOOK, {
     refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
+    context: {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    },
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
-  if (!props.show) {
+  if (!show) {
     return null;
   }
 
   const submit = async (event) => {
     event.preventDefault();
 
-    console.log("add book...");
-    createBook({
+    await createBook({
       variables: {
         title: title,
         author: author,
@@ -30,6 +37,8 @@ const NewBook = (props) => {
         genres: genres,
       },
     });
+
+    setPage("books");
 
     setTitle("");
     setPublished("");
@@ -86,6 +95,8 @@ const NewBook = (props) => {
 
 NewBook.propTypes = {
   show: PropTypes.bool.isRequired,
+  token: PropTypes.string,
+  setPage: PropTypes.func.isRequired,
 };
 
 export default NewBook;

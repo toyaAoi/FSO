@@ -2,13 +2,18 @@ import { useMutation, useQuery } from "@apollo/client";
 import PropTypes from "prop-types";
 import { ALL_AUTHORS, UPDATE_AUTHOR } from "../queries";
 
-const Authors = (props) => {
+const Authors = ({ show, token }) => {
   const { data, loading } = useQuery(ALL_AUTHORS);
   const [updateAuthor] = useMutation(UPDATE_AUTHOR, {
     refetchQueries: [{ query: ALL_AUTHORS }],
+    context: {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    },
   });
 
-  if (!props.show) {
+  if (!show) {
     return null;
   }
 
@@ -76,6 +81,7 @@ const Authors = (props) => {
 
 Authors.propTypes = {
   show: PropTypes.bool.isRequired,
+  token: PropTypes.string,
 };
 
 export default Authors;
