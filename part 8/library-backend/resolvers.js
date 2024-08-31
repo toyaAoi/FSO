@@ -54,7 +54,6 @@ const resolvers = {
     allAuthors: async () => {
       const authors = await Author.find();
       authors.forEach((author) => (author.bookCount = author.books.length));
-      console.log(authors);
       return authors;
     },
     me: ({ currentUser }) => currentUser,
