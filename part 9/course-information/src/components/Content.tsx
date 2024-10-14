@@ -1,17 +1,13 @@
-interface Part {
-  name: string;
-  exerciseCount: number;
-}
+import { CoursePart } from "../App";
+import Part from "./Part";
 
-const Content = ({ courseParts }: { courseParts: Part[] }) => {
+const Content = ({ courseParts }: { courseParts: CoursePart[] }) => {
   console.log(courseParts);
 
   return (
     <>
       {courseParts.map((part) => (
-        <p>
-          {part.name} {part.exerciseCount}
-        </p>
+        <Part key={part.name} part={part} />
       ))}
     </>
   );
