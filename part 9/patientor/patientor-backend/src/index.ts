@@ -23,7 +23,17 @@ app.get("/api/diagnoses", (_req, res) => {
 });
 
 app.get("/api/patients", (_req, res) => {
-  res.send(patientService.getPatientsWoSSN());
+  res.send(patientService.getPatientsNonSensitive());
+});
+
+app.get("/api/patients/:id", (req, res) => {
+  const id = req.params.id;
+  const patient = patientService.getPatient(id);
+  if (patient) {
+    res.send(patient);
+  } else {
+    res.status(404).send({ error: "Patient not found" });
+  }
 });
 
 const newPatientParser = (req: Request, _res: Response, next: NextFunction) => {
