@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import { getDiagnoses } from "./services/diagnosisService";
 import patientService from "./services/patientService";
-import { NewEntrySchema } from "./utils";
+import { NewPatientSchema, toNewEntry } from "./utils";
 import { z } from "zod";
 import { NewPatient, Patient } from "../types";
 
@@ -36,9 +36,22 @@ app.get("/api/patients/:id", (req, res) => {
   }
 });
 
+app.post("/api/patients/:id/entries", (req, res) => {
+  const id = req.params.id;
+  const patient = patientService.getPatient(id);
+
+  if (!patient) {
+    res.send(404).send({ error: "Patient not found" });
+  } else {
+    const newEntry = toNewEntry(req.body);
+    const updatedPatient = patientService.addEntry(id, newEntry);
+    res.json(updatedPatient);
+  }
+});
+
 const newPatientParser = (req: Request, _res: Response, next: NextFunction) => {
   try {
-    NewEntrySchema.parse(req.body);
+    NewPatientSchema.parse(req.body);
   } catch (error: unknown) {
     next(error);
   }

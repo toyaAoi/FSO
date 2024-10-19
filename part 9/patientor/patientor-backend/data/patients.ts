@@ -9,6 +9,25 @@ const data = [
     ssn: "090786-122X",
     gender: "male",
     occupation: "New york city cop",
+    entries: [
+      {
+        id: "dad54ga54sg654a65h2ad4554af",
+        date: "2015-01-02",
+        type: "Hospital",
+        specialist: "MD House",
+        diagnoseCodes: [
+          {
+            code: "Z25.1",
+            description: "Occupational exposure to radiation.",
+          },
+        ],
+        description: "Healing time appr. 2 weeks.",
+        discharge: {
+          date: "2015-01-16",
+          criteria: "Thumb has healed.",
+        },
+      },
+    ],
   },
   {
     id: "d2773598-f723-11e9-8f0b-362b9e155667",

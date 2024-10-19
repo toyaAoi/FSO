@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import { Patient } from "../types";
 import { useEffect, useState } from "react";
 import patientService from "../services/patients";
+import Entry from "./Entry";
+import EntryForm from "./EntryForm";
 
 const PatientDetails = () => {
   const [patient, setPatient] = useState<Patient>();
@@ -15,8 +17,6 @@ const PatientDetails = () => {
     return null;
   }
 
-  console.log(patient);
-
   return (
     <div>
       <h1>
@@ -27,6 +27,17 @@ const PatientDetails = () => {
         <br />
         Occupation: {patient.occupation}
       </p>
+      <EntryForm patientId={patientId} setPatient={setPatient} />
+      {patient.entries && (
+        <>
+          <h2>Entries</h2>
+          <ul>
+            {patient.entries.map((entry) => (
+              <Entry key={entry.id} entry={entry} />
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 };
